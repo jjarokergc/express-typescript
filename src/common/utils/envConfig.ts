@@ -2,7 +2,11 @@ import dotenv from 'dotenv';
 import { z } from 'zod';
 import pkg from '../../../package.json';
 
-dotenv.config();
+const result = dotenv.config();
+
+if (result.error) {
+  console.error('Could not load .env file, proceeding with existing environment variables');
+}
 
 const envSchema = z.object({
   MONGODB_URI: z.string().min(1),
