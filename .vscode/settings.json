@@ -1,14 +1,33 @@
 {
-	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit",
-		"source.fixAll.biome": "explicit",
-		"source.organizeImports.biome": "explicit"
-	},
-	"[javascript][typescript][json][jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[github-actions-workflow][markdown][xml][yaml]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+  // General formatting
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false, // usually false – prevents mess
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // ESLint
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit" // or true
+  },
+
+  // Optional but very recommended
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.quiet": false,
+
+  // These prevent Prettier & built-in formatter conflicts
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Optional: show Prettier / ESLint in status bar
+  "prettier.requireConfig": false
 }
