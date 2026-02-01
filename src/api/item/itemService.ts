@@ -15,7 +15,7 @@
  */
 import { StatusCodes } from 'http-status-codes';
 
-import type { ItemCreatePayload, ItemUpdatePayload } from '@/api/admin/item/itemModel';
+import type { ItemCreatePayload, ItemUpdatePayload } from '@/api/item/itemModel';
 import { ItemRepository } from './itemRepository';
 import { ServiceResponse } from '@/common/models/serviceResponse';
 import { logger } from '@/common/lib/logger';
