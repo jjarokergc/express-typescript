@@ -29,7 +29,7 @@ export const CreateItemRouteSchema = z.object({
 
 // PUT /admin/item/:itemID with data in the request body
 export type ItemUpdatePayload = z.infer<typeof ItemUpdateSchema>;
-export const ItemUpdateSchema = z.object({ ...BaseItemShape }).partial();
+export const ItemUpdateSchema = z.object(BaseItemShape).partial();
 export const UpdateItemRouteSchema = z.object({
   params: z.object({ itemId: commonValidations.mongoId }),
   body: ItemUpdateSchema,
