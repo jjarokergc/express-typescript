@@ -1,5 +1,19 @@
 # 🚀 Express TypeScript Boilerplate 2025
 
+Template expanded with REST APIs for 'items'. The user endpoints remain unchanged for comparison. Mongodb/mongoose added to demonstrate database interface. Replaced biome with prettier-esp. 
+
+This template now requires a mongodb server:
+* `docker pull mongo` 
+* `docker run --name mongodb -p 37017:27017 -d mongo`.
+
+
+TODO
+* confirm docker image
+* extend with Redis and open telemtry
+
+
+## Original
+
 [![CI](https://github.com/edwinhern/express-typescript/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/ci.yml)
 
 ```code
