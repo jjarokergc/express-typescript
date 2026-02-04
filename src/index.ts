@@ -67,14 +67,17 @@ async function start() {
 
   try {
     // 1. Database connection first
-    await connectToMongoose(`${env.MONGODB_URI}/${env.MONGODB_DB_NAME}`, {
-      retryWrites: true,
-      w: 'majority',
-      serverSelectionTimeoutMS: 5000,
-      // Optional extras you might want:
-      // maxPoolSize: 50,
-      // family: 4, // force IPv4 if needed
-    });
+    await connectToMongoose(
+      `mongodb://${env.MONGODB_HOSTNAME}:${env.MONGODB_PORT}/${env.MONGODB_DB_NAME}`,
+      {
+        retryWrites: true,
+        w: 'majority',
+        serverSelectionTimeoutMS: 5000,
+        // Optional extras you might want:
+        // maxPoolSize: 50,
+        // family: 4, // force IPv4 if needed
+      }
+    );
 
     // Optional: Redis connection
     // logger.info('Connecting to Redis...');

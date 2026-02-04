@@ -1,0 +1,55 @@
+services:
+  app: # Production application service
+    build:
+      context: .
+      target: runner # Final, production stage in Dockerfile
+    profiles:
+      - 'prod' # docker compose --profile production up
+    ports:
+      - '8080:8080'
+    env_file:
+      - .env
+      - .env.docker
+    environment:
+      - NODE_ENV=production
+      - MONGO_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      # set Mongo URI for production. Production uses external MongoDB instance
+      # - MONGODB_HOSTNAME=mongo
+      # - MONGODB_PORT=27017
+
+  app-dev: # Development application service
+    build:
+      context: .
+    profiles:
+      - 'dev' # docker compose --profile development up
+    ports:
+      - '8080:8080'
+      - '9229:9229' # Node.js debugger
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - MONGODB_HOSTNAME=mongo
+      - MONGODB_PORT=27017
+    volumes:
+      - ./:/app # Hot Reload
+      # - /app/node_modules # Preserve container's node_modules
+      # - /app/dist
+    command: npm run start:dev
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    ports:
+      - '27017:27017'
+    environment:
+      - NODE_ENV=development
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo-data:/data/db # Named volume
+
+volumes:
+  mongo-data:

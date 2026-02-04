@@ -1,55 +1,35 @@
-# 🚀 Express TypeScript Boilerplate 2025
+# Microservices Template
 
-Template expanded with REST APIs for 'items'. The user endpoints remain unchanged for comparison. Mongodb/mongoose added to demonstrate database interface. Replaced biome with prettier-esp. 
+Based on: Express TypeScript Boilerplate 2025
 
-This template now requires a mongodb server:
-* `docker pull mongo` 
-* `docker run --name mongodb -p 37017:27017 -d mongo`.
+Template expanded with REST APIs for 'items'. The user endpoints remain unchanged for comparison. Mongodb/mongoose added to demonstrate database interface. Replaced biome with prettier-esp.
 
+## Local Development
 
-TODO
-* confirm docker image
-* extend with Redis and open telemtry
+This template requires a mongodb server:
 
-
-## Original
-
-[![CI](https://github.com/edwinhern/express-typescript/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/ci.yml)
-
-```code
-Hey There! 🙌
-🤾 that ⭐️ button if you like this boilerplate.
+```bash
+docker pull mongo
+docker run --name mongodb -p 37017:27017 -d mongo
 ```
 
-## 🌟 Introduction
+## Docker Compose Development
 
-Welcome to Express TypeScript Boilerplate 2025 – a simple and ready-to-use starting point for building backend web services with Express.js and TypeScript.
+### Development (with persistent Mongo)
 
-## 💡 Why We Made This
+docker compose --profile dev up --build -d
 
-This starter kit helps you:
+### Check logs
 
-- ✨ Start new projects faster
-- 📊 Write clean, consistent code
-- ⚡ Build things quickly
-- 🛡️ Follow best practices for security and testing
+docker compose --profile dev logs -f app-dev
 
-## 🚀 What's Included
+### Stop (data survives)
 
-- 📁 Well-organized folders: Files grouped by feature so you can find things easily
-- 💨 Fast development: Quick code running with `tsx` and error checking with `tsc`
-- 🌐 Latest Node.js: Uses the newest stable Node.js version from `.tool-versions`
-- 🔧 Safe settings: Environment settings checked with Zod to prevent errors
-- 🔗 Short import paths: Clean code with easy imports using path shortcuts
-- 🔄 Auto-updates: Keeps dependencies up-to-date with Renovate
-- 🔒 Better security: Built-in protection with Helmet and CORS settings
-- 📊 Easy tracking: Built-in logging with `pino-http`
-- 🧪 Ready-to-test: Testing tools with Vitest and Supertest already set up
-- ✅ Clean code: Consistent coding style with `Biomejs`
-- 📃 Standard responses: Unified API responses using `ServiceResponse`
-- 🐳 Easy deployment: Ready for Docker containers
-- 📝 Input checking: Request validation using Zod
-- 🧩 API browser: Interactive API docs with Swagger UI
+docker compose --profile dev down
+
+### Production (no mongo in compose — assume external)
+
+docker compose --profile prod up --build -d
 
 ## 🛠️ Getting Started
 

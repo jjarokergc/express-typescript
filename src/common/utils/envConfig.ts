@@ -9,7 +9,8 @@ if (result.error) {
 }
 
 const envSchema = z.object({
-  MONGODB_URI: z.string().min(1),
+  MONGODB_HOSTNAME: z.string().min(1),
+  MONGODB_PORT: z.coerce.number().int().positive().default(27017),
   MONGODB_DB_NAME: z.string().min(1),
 
   REDIS_URI: z.string().min(1),
