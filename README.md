@@ -1,8 +1,70 @@
-# Microservices Template
+# Microservices Express Typescript Template
 
-Based on: Express TypeScript Boilerplate 2025
+--DRAFTING--
 
-Template expanded with REST APIs for 'items'. The user endpoints remain unchanged for comparison. Mongodb/mongoose added to demonstrate database interface. Replaced biome with prettier-esp.
+This is a blueprint for multiple Express-TypeScript microservices that are deployed through Kubernetes.
+
+## Tooling
+
+- pnpm
+- Turborepo
+- TypeScript
+
+## Folder Structure
+
+```
+microservices-monorepo/
+├── apps/                       # ← actual runnable services (each like original template)
+│   ├── auth-service/           # example microservice
+│   │   ├── src/
+│   │   │   ├── api/            # routes, controllers, services, repos (copied/adapted)
+│   │   │   ├── index.ts
+│   │   │   └── server.ts
+│   │   ├── tests/
+│   │   ├── tsconfig.json       # extends shared/tsconfig.base.json
+│   │   ├── package.json
+│   │   └── Dockerfile
+│   ├── product-service/        # similar structure
+│   ├── order-service/
+│   └── gateway/                # optional: API gateway / BFF (e.g. express or traefik)
+├── packages/                   # ← shared, reusable code (the key to DRY)
+│   ├── common-express/         # most important shared package
+│   │   ├── src/
+│   │   │   ├── middleware/
+│   │   │   │   ├── errorHandler.ts
+│   │   │   │   ├── requestLogger.ts
+│   │   │   │   └── rateLimiter.ts
+│   │   │   ├── health/
+│   │   │   │   └── healthRouter.ts          # ← reusable health check
+│   │   │   ├── openapi/
+│   │   │   │   ├── openAPIDocumentGenerator.ts
+│   │   │   │   ├── openAPIResponseBuilders.ts
+│   │   │   │   └── openAPIRouter.ts         # ← reusable OpenAPI
+│   │   │   ├── utils/
+│   │   │   │   ├── envConfig.ts
+│   │   │   │   ├── httpHandlers.ts
+│   │   │   │   └── commonValidation.ts
+│   │   │   └── types/
+│   │   │       └── serviceResponse.ts
+│   │   ├── package.json        # "name": "@myorg/common-express"
+│   │   └── tsconfig.json
+│   ├── config/                 # shared eslint, prettier, tsconfig bases
+│   │   ├── eslint/
+│   │   ├── prettier/
+│   │   └── tsconfig.base.json
+│   └── db-utils/               # (optional) shared mongoose utils, prisma client, etc.
+├── infra/
+│   └── k8s/                    # Kubernetes manifests (ArgoCD / Flux style)
+│       ├── base/
+│       ├── auth-service/
+│       ├── product-service/
+│       └── ...
+├── turbo.json
+├── pnpm-workspace.yaml
+├── package.json                # root – mostly devDependencies
+├── .gitignore
+└── README.md
+```
 
 ## Local Development
 
@@ -31,7 +93,9 @@ docker compose --profile dev down
 
 docker compose --profile prod up --build -d
 
-## 🛠️ Getting Started
+## Based on: Express TypeScript Boilerplate 2025
+
+Template expanded with REST APIs for 'items'. The user endpoints remain unchanged for comparison. Mongodb/mongoose added to demonstrate database interface. Replaced biome with prettier-esp.
 
 ### Video Demo
 
