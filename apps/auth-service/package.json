@@ -1,0 +1,74 @@
+{
+  "name": "@example-org/microservice-template",
+  "version": "1.0.0",
+  "description": "Microservice Template",
+  "author": "",
+  "main": "index.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc --noEmit && tsup",
+    "start:dev": "npx tsx --watch --watch-path=src --watch-path=.env src/index.ts",
+    "start:prod": "node dist/index.js",
+    "check": "npx prettier --check .",
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "7.3.4",
+    "@opentelemetry/api": "^1.4.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.37.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
+    "@opentelemetry/sdk-metrics": "^1.13.0",
+    "@opentelemetry/sdk-node": "^0.39.1",
+    "@redis/client": "^5.10.0",
+    "cors": "2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "5.1.0",
+    "express-rate-limit": "8.0.1",
+    "helmet": "8.1.0",
+    "http-status-codes": "2.3.0",
+    "mongoose": "^9.1.5",
+    "pino": "9.9.0",
+    "pino-http": "10.5.0",
+    "pino-pretty": "13.1.1",
+    "swagger-ui-express": "5.0.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.3",
+    "@types/supertest": "6.0.3",
+    "@types/swagger-ui-express": "4.1.8",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vitest/coverage-v8": "3.2.4",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "supertest": "7.1.4",
+    "tsup": "8.5.0",
+    "tsx": "4.20.4",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.54.0",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.2.4"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "outDir": "dist",
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "target": "es2020",
+    "sourcemap": true,
+    "clean": true,
+    "dts": false,
+    "splitting": false,
+    "skipNodeModulesBundle": true
+  },
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
+}

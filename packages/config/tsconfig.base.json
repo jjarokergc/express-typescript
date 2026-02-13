@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "baseUrl": ".", // monorepo-wide for paths aliases
+    "paths": {
+      // "@/common": ["packages/common/src/index"],
+      // "@/common/*": ["packages/common/src/*"],
+      // "@/*": ["apps/auth-service/src/*"]
+      "@/common": ["../../packages/common/src"],
+      "@/common/*": ["../../packages/common/src/*"],
+      "@/auth-service": ["../../apps/auth-service/src"],
+      "@/auth-service/*": ["../../apps/auth-service/src/*"]
+    },
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "importsNotUsedAsValues": "remove",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vitest/globals"],
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}

@@ -10,6 +10,22 @@ This is a blueprint for multiple Express-TypeScript microservices that are deplo
 - Turborepo
 - TypeScript
 
+## Initialize monorepo
+
+```bash
+mkdir microservices-monorepo
+cd microservices-monorepo
+
+pnpm init
+pnpm add -D turbo typescript @types/node
+```
+
+## Build Common Packages
+
+Build packages/comon separately and import the compiled output
+
+packages/common-express/pnpm build
+
 ## Folder Structure
 
 ```
@@ -27,26 +43,26 @@ microservices-monorepo/
 │   ├── product-service/        # similar structure
 │   ├── order-service/
 │   └── gateway/                # optional: API gateway / BFF (e.g. express or traefik)
-├── packages/                   # ← shared, reusable code (the key to DRY)
-│   ├── common-express/         # most important shared package
+├── packages/                   # shared, reusable code
+│   ├── common/                 # most important shared package
 │   │   ├── src/
 │   │   │   ├── middleware/
 │   │   │   │   ├── errorHandler.ts
 │   │   │   │   ├── requestLogger.ts
 │   │   │   │   └── rateLimiter.ts
 │   │   │   ├── health/
-│   │   │   │   └── healthRouter.ts          # ← reusable health check
+│   │   │   │   └── healthRouter.ts          # reusable health check
 │   │   │   ├── openapi/
 │   │   │   │   ├── openAPIDocumentGenerator.ts
 │   │   │   │   ├── openAPIResponseBuilders.ts
-│   │   │   │   └── openAPIRouter.ts         # ← reusable OpenAPI
+│   │   │   │   └── openAPIRouter.ts         # reusable OpenAPI
 │   │   │   ├── utils/
 │   │   │   │   ├── envConfig.ts
 │   │   │   │   ├── httpHandlers.ts
 │   │   │   │   └── commonValidation.ts
 │   │   │   └── types/
 │   │   │       └── serviceResponse.ts
-│   │   ├── package.json        # "name": "@myorg/common-express"
+│   │   ├── package.json        # "name": "@example-org/common"
 │   │   └── tsconfig.json
 │   ├── config/                 # shared eslint, prettier, tsconfig bases
 │   │   ├── eslint/

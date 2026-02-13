@@ -1,4 +1,6 @@
-# Logs
+# ────────────────────────────────────────────────
+# Logs & debugging
+# ────────────────────────────────────────────────
 logs
 *.log
 npm-debug.log*
@@ -7,21 +9,78 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-coverage
+# ────────────────────────────────────────────────
+# Dependencies & build artifacts
+# ────────────────────────────────────────────────
 node_modules
+.pnp
+.pnp.js
 dist
-build
 dist-ssr
-*.local
-.env
-.env.docker
+build
+coverage
+*.tsbuildinfo
+*.tscache
 
-# Editor directories and files
+# Turborepo cache
+.turbo
+
+# pnpm store (sometimes people ignore it, but usually not needed)
+.pnpm-store
+
+# ────────────────────────────────────────────────
+# Environment & secrets
+# ────────────────────────────────────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.docker
+*.env.backup
+
+# Kubernetes / Helm / deployment
+kubeconfig
+*.kubeconfig
+*.k8s.yaml.bak
+helm-secrets.yaml
+.secrets
+
+# ────────────────────────────────────────────────
+# Editor & OS files
+# ────────────────────────────────────────────────
+.vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json          # ← keep if you share workspace settings
+!.vscode/launch.json
+!.vscode/tasks.json
+
 .idea
+*.iml
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# ────────────────────────────────────────────────
+# Temporary / misc files
+# ────────────────────────────────────────────────
+*.local
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ────────────────────────────────────────────────
+# Optional: keep these if you want to commit them
+# (uncomment if you prefer to ignore)
+# ────────────────────────────────────────────────
+package-lock.json      # ← usually ignored with pnpm
+# pnpm-lock.yaml         # ← normally committed
+# turbo.lock             # ← normally committed
