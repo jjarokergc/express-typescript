@@ -4,9 +4,6 @@
     "module": "ESNext",
     "baseUrl": ".", // monorepo-wide for paths aliases
     "paths": {
-      // "@/common": ["packages/common/src/index"],
-      // "@/common/*": ["packages/common/src/*"],
-      // "@/*": ["apps/auth-service/src/*"]
       "@/common": ["../../packages/common/src"],
       "@/common/*": ["../../packages/common/src/*"],
       "@/auth-service": ["../../apps/auth-service/src"],

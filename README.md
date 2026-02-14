@@ -68,6 +68,11 @@ microservices-monorepo/
 │   │   ├── eslint/
 │   │   ├── prettier/
 │   │   └── tsconfig.base.json
+│   ├── vite-config/                   # shared base config
+│   │   ├── src/
+│   │   │   └── base.mts               # export default defineConfig({ ... })
+│   │   ├── package.json               # "name": "@myorg/vite-config"
+│   │   └── tsconfig.json
 │   └── db-utils/               # (optional) shared mongoose utils, prisma client, etc.
 ├── infra/
 │   └── k8s/                    # Kubernetes manifests (ArgoCD / Flux style)
@@ -81,6 +86,17 @@ microservices-monorepo/
 ├── .gitignore
 └── README.md
 ```
+
+## Testing
+
+Vitest is a local workspace package and used for multiple back-end services. In root package.json. A symlink will be created in auth-service:
+
+```bash
+pnpm add -D -w vite vitest vite-tsconfig-paths   # workspace-wide dev tools
+pnpm add -D @example-org/vite-config@workspace:* --filter @example-org/auth-service
+```
+
+Each consumer has its own `vite.config.mts`. A shared base configuration is in packages.
 
 ## Local Development
 

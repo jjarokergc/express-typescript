@@ -2,7 +2,7 @@
 import cors from 'cors';
 import express, { type Express } from 'express';
 import helmet from 'helmet';
-import { healthCheckRouter } from '@/common';
+import { healthCheckRouter } from '@/common/health/healthRouter';
 import { userRouter } from './api/user/userRouter';
 import { itemAdminRouter } from './api/item/itemAdminRouter';
 import { openAPIRouter } from './openapi/openAPIRouter';

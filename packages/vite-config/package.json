@@ -1,0 +1,16 @@
+{
+  "name": "@example-org/vite-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/base.mts",
+  "types": "src/base.mts",
+  "private": true,
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "@types/supertest": "6.0.3",
+    "supertest": "7.1.4",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.2.4"
+  }
+}
