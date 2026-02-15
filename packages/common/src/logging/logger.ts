@@ -18,7 +18,7 @@ const baseLogger = pino({
 export const appLogger = baseLogger;
 
 // HTTP logging
-export const httpLogger = baseLogger.child({
-  level: 'warn', // process.env.HTTP_LOG_LEVEL || 'warn',
-  component: 'http',
-});
+export const httpLogger = baseLogger.child(
+  { component: 'http' }, // Bindings/context fields
+  { level: process.env.HTTP_LOG_LEVEL || 'warn' } // Real options, including level overides
+);

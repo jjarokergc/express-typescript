@@ -1,16 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { NextFunction, Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import pinoHttp from 'pino-http';
 import { httpLogger } from '@/common/logging/logger';
-
-const getLogLevel = (status: number) => {
-  if (status >= 500) return 'error';
-  if (status >= 400) return 'warn';
-  if (status >= 300) return 'info';
-
-  return 'info';
-};
 
 const addRequestId = (req: Request, res: Response, next: NextFunction) => {
   const existingId = req.headers['x-request-id'] as string;
@@ -26,7 +17,12 @@ const addRequestId = (req: Request, res: Response, next: NextFunction) => {
 // HTTP logger middleware
 const middlewareLogger = pinoHttp({
   logger: httpLogger,
-  customLogLevel: (_req, res) => getLogLevel(res.statusCode),
+  customLogLevel: (req, res, err) => {
+    if (res.statusCode >= 500 || err) return 'error';
+    if (res.statusCode >= 400) return 'warn';
+    if (res.statusCode >= 300) return 'info'; // or 'silent' to hide redirects
+    return process.env.NODE_ENV === 'development' ? 'debug' : 'silent'; // hide 2xx in prod
+  },
   genReqId: (req) => req.headers['x-request-id'] as string,
   customSuccessMessage: (req) => `${req.method} ${req.url} completed`,
   customErrorMessage: (_req, res) => `Request failed with status code: ${res.statusCode}`,
