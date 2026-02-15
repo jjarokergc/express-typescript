@@ -1,15 +1,15 @@
 import type { ItemCreatePayload, ItemUpdatePayload } from './itemModel';
 import { ItemModel } from './itemModel';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 
 export class ItemRepository {
   async findAllAsync(): Promise<ItemCreatePayload[]> {
-    logger.debug('Fetching all items');
+    appLogger.debug('Fetching all items');
     return ItemModel.find({}).sort({ createdAt: -1 }).exec();
   }
 
   async findByIdAsync(id: string): Promise<ItemCreatePayload | null> {
-    logger.debug(`Find by ID item with id: ${id}`);
+    appLogger.debug(`Find by ID item with id: ${id}`);
     return ItemModel.findById(id).exec();
   }
 

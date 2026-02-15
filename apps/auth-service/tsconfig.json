@@ -7,6 +7,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*", "**/*.test.ts", "../../packages/common/src/health/healthRouter.ts"],
+  "include": ["src/**/*", "**/*.test.ts"],
   "references": [{ "path": "../../packages/common" }]
 }

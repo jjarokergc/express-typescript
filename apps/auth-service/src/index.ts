@@ -1,6 +1,6 @@
 import { env } from './config/env';
 import { app } from './server';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 
 import { connectToMongoose } from '@/common/db-utils/mongooseConnection';
 import mongoose from 'mongoose'; // ← import to access connection
@@ -14,20 +14,20 @@ import mongoose from 'mongoose'; // ← import to access connection
 let server: import('http').Server | null = null;
 
 async function gracefulShutdown(signal: string): Promise<void> {
-  logger.info(`[${signal}] Received. Starting graceful shutdown...`);
+  appLogger.info(`[${signal}] Received. Starting graceful shutdown...`);
 
   const timeout = setTimeout(() => {
-    logger.error('Graceful shutdown timed out after 15s → forcing exit');
+    appLogger.error('Graceful shutdown timed out after 15s → forcing exit');
     process.exit(1);
   }, 15000);
 
   try {
     // 1. Stop accepting new connections (let existing requests finish)
     if (server) {
-      logger.info('Closing HTTP server...');
+      appLogger.info('Closing HTTP server...');
       await new Promise<void>((resolve) => {
         server!.close(() => {
-          logger.info('HTTP server closed (no new connections)');
+          appLogger.info('HTTP server closed (no new connections)');
           resolve();
         });
       });
@@ -36,9 +36,9 @@ async function gracefulShutdown(signal: string): Promise<void> {
     // 2. Close Mongoose connection pool
     if (mongoose.connection.readyState !== 0) {
       // not disconnected
-      logger.info('Closing Mongoose connections...');
+      appLogger.info('Closing Mongoose connections...');
       await mongoose.connection.close();
-      logger.info('Mongoose disconnected cleanly');
+      appLogger.info('Mongoose disconnected cleanly');
     }
 
     // Optional: Redis shutdown (uncomment when implemented)
@@ -52,19 +52,19 @@ async function gracefulShutdown(signal: string): Promise<void> {
     // await tracing?.shutdown?.();
     // logger.info('Tracing shut down');
 
-    logger.info(`Graceful shutdown completed successfully → ${env.serviceName}`);
+    appLogger.info(`Graceful shutdown completed successfully → ${env.serviceName}`);
     clearTimeout(timeout);
     process.exit(0);
   } catch (err) {
-    logger.error(`Error during shutdown: ${(err as Error).message}`);
+    appLogger.error(`Error during shutdown: ${(err as Error).message}`);
     clearTimeout(timeout);
     process.exit(1);
   }
 }
 
 async function start() {
-  logger.info(`───────── ${env.serviceName.toUpperCase()} v${env.serviceVersion} ─────────`);
-  logger.info(`Environment: ${env.NODE_ENV}`);
+  appLogger.info(`───────── ${env.serviceName.toUpperCase()} v${env.serviceVersion} ─────────`);
+  appLogger.info(`Environment: ${env.NODE_ENV}`);
 
   try {
     // 1. Database connection first
@@ -89,20 +89,20 @@ async function start() {
     server = app.listen(env.PORT, () => {
       const addr = server!.address();
       const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr?.port ?? env.PORT}`;
-      logger.info(`Server Listening on: ${bind.padEnd(28)}`);
+      appLogger.info(`Server Listening on: ${bind.padEnd(28)}`);
     });
 
     // Register signal handlers (only after successful startup)
     process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
     process.on('SIGINT', () => gracefulShutdown('SIGINT')); // Ctrl+C
   } catch (err) {
-    logger.error(`Application startup failed: ${(err as Error).message}`);
+    appLogger.error(`Application startup failed: ${(err as Error).message}`);
     await gracefulShutdown('startup-failure');
   }
 }
 
 // Kick off the app
 start().catch((err) => {
-  logger.fatal(`Fatal error during startup: ${(err as Error).message}`);
+  appLogger.fatal(`Fatal error during startup: ${(err as Error).message}`);
   process.exit(1);
 });

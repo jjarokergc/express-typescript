@@ -1,5 +1,5 @@
 import type { Request, RequestHandler, Response } from 'express';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 import { itemService } from './itemService';
 
 class ItemController {
@@ -9,22 +9,22 @@ class ItemController {
   };
 
   public getItem: RequestHandler = async (req: Request, res: Response) => {
-    logger.debug(`GETITEM - Request params: ${JSON.stringify(req.params)}`);
+    appLogger.debug(`GETITEM - Request params: ${JSON.stringify(req.params)}`);
     const itemId = req.params.itemId as string;
     const serviceResponse = await itemService.findByIdAsync(itemId);
     res.status(serviceResponse.statusCode).send(serviceResponse);
   };
 
   public createItem: RequestHandler = async (req: Request, res: Response) => {
-    logger.debug(`CREATEITEM - Request body: ${JSON.stringify(req.body)}`);
+    appLogger.debug(`CREATEITEM - Request body: ${JSON.stringify(req.body)}`);
     const itemData = req.body;
     const serviceResponse = await itemService.createItem(itemData);
     res.status(serviceResponse.statusCode).send(serviceResponse);
   };
 
   public updateItem: RequestHandler = async (req: Request, res: Response) => {
-    logger.debug(`UPDATEITEM - Request params: ${JSON.stringify(req.params)}`);
-    logger.debug(`UPDATEITEM - Request body: ${JSON.stringify(req.body)}`);
+    appLogger.debug(`UPDATEITEM - Request params: ${JSON.stringify(req.params)}`);
+    appLogger.debug(`UPDATEITEM - Request body: ${JSON.stringify(req.body)}`);
     const itemId = req.params.itemId as string;
     const itemData = req.body;
     const serviceResponse = await itemService.updateItemByIdAsync(itemId, itemData);
@@ -32,7 +32,7 @@ class ItemController {
   };
 
   public deleteItem: RequestHandler = async (req: Request, res: Response) => {
-    logger.debug(`DELETEITEM - Request parameter: ${JSON.stringify(req.params)}`);
+    appLogger.debug(`DELETEITEM - Request parameter: ${JSON.stringify(req.params)}`);
     const itemId = req.params.itemId as string;
     const serviceResponse = await itemService.deleteItemByIdAsync(itemId);
     res.status(serviceResponse.statusCode).send(serviceResponse);

@@ -1,10 +1,45 @@
 {
   "name": "@example-org/common",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./openapi/*": {
+      "types": "./dist/openapi/*.d.ts",
+      "default": "./dist/openapi/*.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "default": "./dist/utils/*.js"
+    },
+    "./types/*": {
+      "types": "./dist/types/*.d.ts",
+      "default": "./dist/types/*.js"
+    },
+    "./health/*": {
+      "types": "./dist/health/*.d.ts",
+      "default": "./dist/health/*.js"
+    },
+    "./middleware/*": {
+      "types": "./dist/middleware/*.d.ts",
+      "default": "./dist/middleware/*.js"
+    },
+    "./db-utils/*": {
+      "types": "./dist/db-utils/*.d.ts",
+      "default": "./dist/db-utils/*.js"
+    },
+    "./logging/*": {
+      "types": "./dist/logging/*.d.ts",
+      "default": "./dist/logging/*.js"
+    }
+  },
   "scripts": {
-    "build": "tsc --noEmit && tsc --emitDeclarationOnly",
+    "build": "tsc --build --emitDeclarationOnly",
+    "clean": "rimraf dist",
     "test": "vitest",
     "test:run": "vitest run",
     "test:cov": "vitest run --coverage"
@@ -21,6 +56,7 @@
     "pino": "9.9.0",
     "pino-http": "10.5.0",
     "pino-pretty": "13.1.1",
+    "rimraf": "^6.1.2",
     "swagger-ui-express": "5.0.1",
     "zod": "3.25.76"
   },

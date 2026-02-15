@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from 'mongoose';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 
 export const connectToMongoose = async (
   connectionString: string,
@@ -7,9 +7,9 @@ export const connectToMongoose = async (
 ): Promise<void> => {
   try {
     await mongoose.connect(connectionString, options);
-    logger.info(`MongoDB: ${connectionString}`);
+    appLogger.info(`MongoDB: ${connectionString}`);
   } catch (error) {
-    logger.error(`Error connecting to Mongoose: ${(error as Error).message}`);
+    appLogger.error(`Error connecting to Mongoose: ${(error as Error).message}`);
     process.exit(1);
   }
 };

@@ -2,11 +2,13 @@ import { randomUUID } from 'node:crypto';
 import type { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import pinoHttp from 'pino-http';
-import { logger } from '@/common/logging/logger';
+import { httpLogger } from '@/common/logging/logger';
 
 const getLogLevel = (status: number) => {
-  if (status >= StatusCodes.INTERNAL_SERVER_ERROR) return 'error';
-  if (status >= StatusCodes.BAD_REQUEST) return 'warn';
+  if (status >= 500) return 'error';
+  if (status >= 400) return 'warn';
+  if (status >= 300) return 'info';
+
   return 'info';
 };
 
@@ -21,10 +23,11 @@ const addRequestId = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-const httpLogger = pinoHttp({
-  logger,
-  genReqId: (req) => req.headers['x-request-id'] as string,
+// HTTP logger middleware
+const middlewareLogger = pinoHttp({
+  logger: httpLogger,
   customLogLevel: (_req, res) => getLogLevel(res.statusCode),
+  genReqId: (req) => req.headers['x-request-id'] as string,
   customSuccessMessage: (req) => `${req.method} ${req.url} completed`,
   customErrorMessage: (_req, res) => `Request failed with status code: ${res.statusCode}`,
   // Only log response bodies in development
@@ -47,4 +50,4 @@ const captureResponseBody = (_req: Request, res: Response, next: NextFunction) =
   next();
 };
 
-export default [addRequestId, captureResponseBody, httpLogger];
+export default [addRequestId, captureResponseBody, middlewareLogger];

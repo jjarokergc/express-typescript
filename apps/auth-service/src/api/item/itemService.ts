@@ -18,7 +18,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { ItemCreatePayload, ItemUpdatePayload } from './itemModel';
 import { ItemRepository } from './itemRepository';
 import { ServiceResponse } from '@/common/types/serviceResponse';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 
 export class ItemService {
   private itemRepository: ItemRepository;
@@ -40,7 +40,7 @@ export class ItemService {
       return ServiceResponse.success<ItemCreatePayload[]>('Items found', items);
     } catch (ex) {
       const errorMessage = `Error finding all items: $${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while retrieving items.',
         null,
@@ -59,7 +59,7 @@ export class ItemService {
       return ServiceResponse.success<ItemCreatePayload>('Item found', item);
     } catch (ex) {
       const errorMessage = `Error finding item with id ${itemId}:, ${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while finding item.',
         null,
@@ -70,7 +70,7 @@ export class ItemService {
 
   // Creates a new item in the database
   async createItem(data: ItemCreatePayload): Promise<ServiceResponse<ItemCreatePayload | null>> {
-    logger.debug(`Creating item with data: ${JSON.stringify(data)}`);
+    appLogger.debug(`Creating item with data: ${JSON.stringify(data)}`);
     try {
       const newItem = await this.itemRepository.createAsync(data);
       return ServiceResponse.success<ItemCreatePayload>(
@@ -80,7 +80,7 @@ export class ItemService {
       );
     } catch (ex) {
       const errorMessage = `Error creating item: ${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while creating the item.',
         null,
@@ -92,7 +92,7 @@ export class ItemService {
     itemId: string,
     data: ItemUpdatePayload
   ): Promise<ServiceResponse<ItemCreatePayload | null>> {
-    logger.debug(`Updating item ${itemId} with data: ${JSON.stringify(data)}`);
+    appLogger.debug(`Updating item ${itemId} with data: ${JSON.stringify(data)}`);
     try {
       const updatedItem = await this.itemRepository.updateAsync(itemId, data);
 
@@ -107,7 +107,7 @@ export class ItemService {
       );
     } catch (ex) {
       const errorMessage = `Error updating item: ${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while updating the item.',
         null,
@@ -117,7 +117,7 @@ export class ItemService {
   }
 
   async deleteItemByIdAsync(itemId: string): Promise<ServiceResponse<ItemCreatePayload | null>> {
-    logger.debug(`Deleting item with ID: ${itemId}`);
+    appLogger.debug(`Deleting item with ID: ${itemId}`);
     try {
       const deletedItem = await this.itemRepository.deleteByIdAsync(itemId);
 
@@ -132,7 +132,7 @@ export class ItemService {
       );
     } catch (ex) {
       const errorMessage = `Error deleting item: ${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while deleting the item.',
         null,

@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { User } from './userModel';
 import { UserRepository } from './userRepository';
 import { ServiceResponse } from '@/common/types/serviceResponse';
-import { logger } from '@/common/logging/logger';
+import { appLogger } from '@/common/logging/logger';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -22,7 +22,7 @@ export class UserService {
       return ServiceResponse.success<User[]>('Users found', users);
     } catch (ex) {
       const errorMessage = `Error finding all users: $${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while retrieving users.',
         null,
@@ -41,7 +41,7 @@ export class UserService {
       return ServiceResponse.success<User>('User found', user);
     } catch (ex) {
       const errorMessage = `Error finding user with id ${id}:, ${(ex as Error).message}`;
-      logger.error(errorMessage);
+      appLogger.error(errorMessage);
       return ServiceResponse.failure(
         'An error occurred while finding user.',
         null,

@@ -192,6 +192,9 @@ importers:
       pino-pretty:
         specifier: 13.1.1
         version: 13.1.1
+      rimraf:
+        specifier: ^6.1.2
+        version: 6.1.2
       swagger-ui-express:
         specifier: 5.0.1
         version: 5.0.1(express@5.1.0)
