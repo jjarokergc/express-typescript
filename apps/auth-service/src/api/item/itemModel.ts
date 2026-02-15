@@ -64,4 +64,7 @@ const ItemDbSchema = new mongoose.Schema(
 );
 
 export type ItemDocument = InferSchemaType<typeof ItemDbSchema> & mongoose.Document;
-export const ItemModel = mongoose.model<ItemDocument>('Item', ItemDbSchema);
+
+// Idempotent model definition - check if model already exists before defining it
+// This is necessary to avoid "OverwriteModelError: Cannot overwrite `Item` model once compiled." error
+export const ItemModel = mongoose.models.Item || mongoose.model<ItemDocument>('Item', ItemDbSchema);
