@@ -1,17 +1,15 @@
 import pino from 'pino';
-// import { env } from '../utils/envConfig';
-import { env } from '@/common/utils/envConfig';
 
 export const logger = pino({
-  name: env.serviceName,
-  level: env.isProduction ? 'info' : 'debug',
-  transport: env.isProduction
-    ? undefined
-    : {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
+  level: process.env.LOG_LEVEL || 'info',
+  transport:
+    process.env.NODE_ENV === 'production'
+      ? undefined
+      : {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+          },
         },
-      },
 });

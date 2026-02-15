@@ -4,13 +4,10 @@ import { StatusCodes } from 'http-status-codes';
 import pinoHttp from 'pino-http';
 import { logger } from '@/common/logging/logger';
 
-import { env } from '@/common/utils/envConfig';
-
 const getLogLevel = (status: number) => {
   if (status >= StatusCodes.INTERNAL_SERVER_ERROR) return 'error';
   if (status >= StatusCodes.BAD_REQUEST) return 'warn';
-  // Suppress INFO-level logs in development
-  return env.isProduction ? 'info' : 'silent';
+  return 'info';
 };
 
 const addRequestId = (req: Request, res: Response, next: NextFunction) => {
@@ -41,13 +38,12 @@ const httpLogger = pinoHttp({
 });
 
 const captureResponseBody = (_req: Request, res: Response, next: NextFunction) => {
-  if (!env.isProduction) {
-    const originalSend = res.send;
-    res.send = function (body) {
-      res.locals.responseBody = body;
-      return originalSend.call(this, body);
-    };
-  }
+  const originalSend = res.send;
+  res.send = function (body) {
+    res.locals.responseBody = body;
+    return originalSend.call(this, body);
+  };
+
   next();
 };
 

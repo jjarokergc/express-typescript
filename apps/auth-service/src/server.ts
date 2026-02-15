@@ -7,7 +7,7 @@ import { userRouter } from './api/user/userRouter';
 import { itemAdminRouter } from './api/item/itemAdminRouter';
 import { openAPIRouter } from './openapi/openAPIRouter';
 import errorHandler from '@/common/middleware/errorHandler';
-import rateLimiter from '@/common/middleware/rateLimiter';
+import { createRateLimiter } from '@/common/middleware/rateLimiter';
 import requestLogger from '@/common/middleware/requestLogger';
 import { env } from '@/common/utils/envConfig';
 
@@ -21,7 +21,12 @@ app.use(express.json()); // request body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
 app.use(helmet());
-app.use(rateLimiter);
+app.use(
+  createRateLimiter({
+    limit: env.COMMON_RATE_LIMIT_MAX_REQUESTS,
+    windowMs: env.COMMON_RATE_LIMIT_WINDOW_MS,
+  })
+);
 
 // Request logging
 app.use(requestLogger);
