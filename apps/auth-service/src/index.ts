@@ -16,7 +16,6 @@ const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
 const serviceName = pkg.name; // e.g. "@myorg/auth-service"
 const serviceVersion = pkg.version; // e.g. "1.2.3"
 
-
 // Optional: uncomment when you activate tracing & Redis
 // import openTelemetry from '@/common/lib/tracing.js';
 // const tracing = openTelemetry(`${env.serviceName}:${env.serviceVersion}`);

@@ -22,3 +22,7 @@ export const httpLogger = baseLogger.child(
   { component: 'http' }, // Bindings/context fields
   { level: process.env.HTTP_LOG_LEVEL || 'warn' } // Real options, including level overides
 );
+
+appLogger.debug(`Loggers initialized with levels:
+  app: ${appLogger.level}
+  http: ${httpLogger.level}`);

@@ -18,10 +18,10 @@ const addRequestId = (req: Request, res: Response, next: NextFunction) => {
 const middlewareLogger = pinoHttp({
   logger: httpLogger,
   customLogLevel: (req, res, err) => {
-    if (res.statusCode >= 500 || err) return 'error';
-    if (res.statusCode >= 400) return 'warn';
-    if (res.statusCode >= 300) return 'info'; // or 'silent' to hide redirects
-    return process.env.NODE_ENV === 'development' ? 'debug' : 'silent'; // hide 2xx in prod
+    if (err || res.statusCode >= 500 || err) return 'error'; // Server errors and exceptions
+    if (res.statusCode >= 400) return 'warn'; // Client errors
+    if (res.statusCode >= 200) return 'info';
+    return process.env.NODE_ENV === 'development' ? 'debug' : 'silent'; 
   },
   genReqId: (req) => req.headers['x-request-id'] as string,
   customSuccessMessage: (req) => `${req.method} ${req.url} completed`,
