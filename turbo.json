@@ -16,7 +16,7 @@
     },
     "lint": { "outputs": [] },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [],
       "outputs": [],
       "cache": false,
       "persistent": true,
