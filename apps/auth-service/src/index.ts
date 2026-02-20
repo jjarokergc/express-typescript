@@ -1,6 +1,7 @@
 import { env } from './config/env';
 import { app } from './server';
 import { appLogger } from '@example-org/common';
+import type { Server } from 'node:http';
 
 import { connectToMongoose } from '@example-org/common';
 import mongoose from 'mongoose'; // ← import to access connection
@@ -22,7 +23,7 @@ const serviceVersion = pkg.version; // e.g. "1.2.3"
 // import { createClient } from 'redis'; // or 'ioredis'
 // const redisClient = createClient({ url: env.REDIS_URI });
 
-let server: import('http').Server | null = null;
+let server: Server | null = null;
 
 async function gracefulShutdown(signal: string): Promise<void> {
   appLogger.info(`[${signal}] Received. Starting graceful shutdown...`);
